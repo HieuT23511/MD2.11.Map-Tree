@@ -14,26 +14,31 @@ export class BinaryTree<G> implements Tree<G> {
         return this.totalNode;
     }
 
-    inorder(node: TreeNode<G>): void {
-        if(node){
-            if (node.left){
+    inorder(node: TreeNode<G> | null): void {
+        if (node) {
+            if (node.left) {
                 this.inorder(node.left);
             }
             console.log(node._data);
-            if(node.right){
+            if (node.right) {
                 this.inorder(node.right);
             }
         }
     }
+
     insert(data: G): TreeNode<G> {
         if (!this.root) {
             this.root = new TreeNode<G>(data);
             this.totalNode++;
+            return this.root;
         } else {
             let node = new TreeNode<G>(data);
             let currentNode = this.root;
             while (currentNode) {
-                if (data <= currentNode._data) {
+                if (data === currentNode._data) {
+                    throw new Error('Node data existed');
+                }
+                if (data < currentNode._data) {
                     if (!currentNode.left) {
                         currentNode.left = node;
                         break;
@@ -51,5 +56,4 @@ export class BinaryTree<G> implements Tree<G> {
             return currentNode
         }
     }
-
 }
